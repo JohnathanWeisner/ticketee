@@ -1,21 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe User, :type => :model do
+  let(:user) { FactoryGirl.build(:user) }
+
   describe "passwords" do
     it "needs a password and confirmation to save" do
-      u = User.new(name: "steve")
+      user.password_confirmation = "pass"
+      user.save
+      expect(user).to_not be_valid
 
-      u.save
-      expect(u).to_not be_valid
+      user.password = "password"
+      user.password_confirmation = ""
+      user.save
+      expect(user).to_not be_valid
 
-      u.password = "password"
-      u.password_confirmation = ""
-      u.save
-      expect(u).to_not be_valid
-
-      u.password_confirmation = "password"
-      u.save
-      expect(u).to be_valid
+      user.password_confirmation = "password"
+      user.save
+      expect(user).to be_valid
     end
 
     it "needs password and confirmation to match" do

@@ -1,0 +1,6 @@
+%h2 Profile
+%h1 Name:
+= @user.name
+%h1 Email:
+= @user.email
+= link_to "Edit Profile", [:edit, @user]

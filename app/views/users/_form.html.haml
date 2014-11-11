@@ -6,7 +6,7 @@
         prohibited this user from being saved:
 
       %ul
-        - @ticket.errors.full_messages.each do |msg|
+        - @user.errors.full_messages.each do |msg|
           %li= msg
   %p
     = f.label :name, "Name"
@@ -24,4 +24,7 @@
     = f.label :password_confirmation
     %br
     = f.password_field :password_confirmation
-  = f.submit "Sign up"
+  - if @user.new_record?
+    = f.submit "Sign up"
+  - else
+    = f.submit "Update Profile"
