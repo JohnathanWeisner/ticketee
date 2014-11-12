@@ -3,6 +3,8 @@ class ProjectsController < ApplicationController
                                      :edit,
                                      :update,
                                      :destroy]
+  before_action :authorize_admin!, except: [:index, :show]
+
   def index
     @projects = Project.all
   end
@@ -50,15 +52,24 @@ class ProjectsController < ApplicationController
 
   private
 
-  def set_project
-    @project = Project.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    flash[:alert] = "The project you were looking" +
-                    " for could not be found."
-    redirect_to projects_path
-  end
+    def authorize_admin!
+      require_signin!
 
-  def project_params
-    params.require(:project).permit(:name, :description)
-  end
+      unless current_user.admin?
+        flash[:alert] = "You must be an admin to do that."
+        redirect_to root_path
+      end
+    end
+
+    def set_project
+      @project = Project.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      flash[:alert] = "The project you were looking" +
+                      " for could not be found."
+      redirect_to projects_path
+    end
+
+    def project_params
+      params.require(:project).permit(:name, :description)
+    end
 end

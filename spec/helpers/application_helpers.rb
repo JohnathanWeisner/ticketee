@@ -5,5 +5,9 @@ module ApplicationHelpers
     fill_in "Password", with: user.password
     click_button 'Sign in'
     expect(page).to have_content("Signed in successfully.")
-  end 
+  end
+
+  def sign_in(user)
+    session[:user_id] = user.id
+  end
 end
