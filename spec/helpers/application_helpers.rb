@@ -11,3 +11,7 @@ module ApplicationHelpers
     session[:user_id] = user.id
   end
 end
+
+RSpec.configure do |config|
+  config.include ApplicationHelpers
+end
