@@ -13,7 +13,9 @@
     = csrf_meta_tags
   %body
     %nav
-      = link_to "Sign up", new_user_path
+      %ul
+        %li= link_to "Sign up", new_user_path
+        %li= link_to "Sign in", signin_path
     - flash.each do |key, value|
       .flash{ id: key }
         = value
